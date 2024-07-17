@@ -1,28 +1,62 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { authContext } from "../AuthProvider/AuthProvider";
 import axios from "axios";
-import { NavLink } from "react-router-dom";
 
 const Register = () => {
-  const [pin, setPin] = useState('');
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [number, setNumber] = useState('');
+  // const [pin, setPin] = useState('');
+  // const [name, setName] = useState('');
+  // const [email, setEmail] = useState('');
+  // const [number, setNumber] = useState('');
+  // const [role, setRole] = useState(''); // Default role
+  const { register } = useContext(authContext);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(name, pin, number, email)
+    const form = e.target;
+    const name = form.name.value;
+    const email = form.email.value;
+    const number = form.number.value;
+    const role = form.role.value;
+    const pin = form.pin.value;
+    const balance = 0; // Hardcoding balance to 0
+    const formData = { name, pin, number, email, role, balance };
+    // console.log(formData);
+    // try {
+    //   const response = await axios.post(
+    //     "http://localhost:5000/user/register",
+    //     formData,
+    //     { headers: { "Content-Type": "application/json" } }
+    //   );
+    //   navigate("/");
+    //   console.log(response.data);
+    // } catch (error) {
+    //   console.log(error);
+    // }
     try {
-      await axios.post('http://localhost:5000/user/register', { name, pin, number, email });
-      alert('Registration successful');
+      await register(formData);
+      console.log(formData)
+      navigate("/"); // Redirect to home page or any other page after successful registration
     } catch (error) {
-      alert('Registration failed');
+      alert("Sorry, registration failed");
     }
   };
+  // try {
+  //   const response =
+  //   await axios.post('http://localhost:5000/user/register', formData);
+  //   alert('Registration successful');
+  // } catch (error) {
+  //   alert('Registration failed');
+  // }
 
   return (
     <div className="flex justify-center bg-base-200 min-h-screen">
       <div className="relative flex flex-col text-gray-700 bg-transparent shadow-none rounded-xl bg-clip-border">
-        <form className="max-w-screen-lg mt-8 mb-2 w-80 sm:w-96 bg-white p-5 rounded-lg" onSubmit={handleSubmit}>
+        <form
+          className="max-w-screen-lg mt-8 mb-2 w-80 sm:w-96 bg-white p-5 rounded-lg"
+          onSubmit={handleSubmit}
+        >
           <h4 className="text-center block font-sans text-2xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
             Register Now
           </h4>
@@ -36,8 +70,8 @@ const Register = () => {
                   type="text"
                   placeholder="Name"
                   className="peer h-full w-full rounded-md border border-black !border-t-blue-gray-200 bg-transparent px-3 py-3 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-gray-900 focus:border-t-transparent focus:!border-t-gray-900 focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  // value={name}
+                  // onChange={(e) => setName(e.target.value)}
                 />
               </div>
             </label>
@@ -50,8 +84,8 @@ const Register = () => {
                   type="number"
                   placeholder="+88"
                   className="peer border-black h-full w-full rounded-md border !border-t-blue-gray-200 bg-transparent px-3 py-3 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-gray-900 focus:border-t-transparent focus:!border-t-gray-900 focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
-                  value={number}
-                  onChange={(e) => setNumber(e.target.value)}
+                  // value={number}
+                  // onChange={(e) => setNumber(e.target.value)}
                 />
               </div>
             </label>
@@ -64,8 +98,8 @@ const Register = () => {
                   type="email"
                   placeholder="name@mail.com"
                   className="peer h-full w-full rounded-md border border-black !border-t-blue-gray-200 bg-transparent px-3 py-3 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-gray-900 focus:border-t-transparent focus:!border-t-gray-900 focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  // value={email}
+                  // onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
             </label>
@@ -77,10 +111,26 @@ const Register = () => {
                   type="password"
                   placeholder="PIN"
                   className="peer h-full w-full rounded-md border border-black !border-t-blue-gray-200 bg-transparent px-3 py-3 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-gray-900 focus:border-t-transparent focus:!border-t-gray-900 focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
-                  value={pin}
-                  onChange={(e) => setPin(e.target.value)}
+                  // value={pin}
+                  // onChange={(e) => setPin(e.target.value)}
                   required
                 />
+              </div>
+            </label>
+            <label className="block -mb-3 font-sans text-base antialiased font-semibold leading-relaxed tracking-normal text-blue-gray-900">
+              Role
+              <div className="relative w-full">
+                <select
+                  name="role"
+                  className="peer h-full w-full rounded-md border border-black !border-t-blue-gray-200 bg-transparent px-3 py-3 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all focus:border-2 focus:border-gray-900 focus:border-t-transparent focus:!border-t-gray-900 focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
+                  // value={role}
+                  // onChange={(e) => setRole(e.target.value)}
+                  required
+                >
+                  <option defaultValue>Your Role</option>
+                  <option value="user">User</option>
+                  <option value="agent">Agent</option>
+                </select>
               </div>
             </label>
           </div>

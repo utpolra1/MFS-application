@@ -1,21 +1,22 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import axios from 'axios';
+import { authContext } from "../AuthProvider/AuthProvider";
 
 const Login = () => {
   const [pin, setPin] = useState('');
-  const [credential, setCredential] = useState(''); // This will handle either email or phone
-  const location=useLocation();
-  const navigate=useNavigate();
+  const [credential, setCredential] = useState('');
+  const { login } = useContext(authContext);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/user/login', { credential, pin });
-      alert('Login successful');
-      navigate(location?.state ? location.state : "/");
+      await login(credential, pin);
+      navigate(location.state?.from || "/");
     } catch (error) {
-      alert('Login failed');
+      console.error("Login failed:", error);
+      // Display error message to the user
     }
   };
 
