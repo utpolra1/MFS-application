@@ -10,6 +10,7 @@ import { TbCoinTaka } from "react-icons/tb";
 
 const Dashboard = () => {
   const { user, isLoggedIn, logout } = useContext(authContext);
+  console.log(user);
   return (
     <div className="flex">
       <div className="w-64 min-h-screen bg-slate-300">
@@ -17,7 +18,7 @@ const Dashboard = () => {
           <div>
             <div>
               <p>Welcome, {user?.name}</p>
-              <p>Blance:0 {user?.blance}</p>
+              <p>Blance: {user?.balance}</p>
             </div>
           </div>
           <li>

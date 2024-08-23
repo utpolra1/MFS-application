@@ -41,6 +41,7 @@ const AuthProvider = ({ children }) => {
   }, [getuser]);
 
   const register = async (formData) => {
+    console.log(formData);
     try {
       const response = await axios.post(
         "http://localhost:5000/user/register",
@@ -53,7 +54,7 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  const login = (credential, pin) => {
+  const login = async (credential, pin) => {
     return axios.post('http://localhost:5000/user/login', { credential, pin })
       .then(response => {
         if (response.data) {

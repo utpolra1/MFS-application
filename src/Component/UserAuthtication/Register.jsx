@@ -1,14 +1,8 @@
 import React, { useContext, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { authContext } from "../AuthProvider/AuthProvider";
-import axios from "axios";
 
 const Register = () => {
-  // const [pin, setPin] = useState('');
-  // const [name, setName] = useState('');
-  // const [email, setEmail] = useState('');
-  // const [number, setNumber] = useState('');
-  // const [role, setRole] = useState(''); // Default role
   const { register } = useContext(authContext);
   const navigate = useNavigate();
 
@@ -20,35 +14,17 @@ const Register = () => {
     const number = form.number.value;
     const role = form.role.value;
     const pin = form.pin.value;
-    const balance = 0; // Hardcoding balance to 0
-    const formData = { name, pin, number, email, role, balance };
-    // console.log(formData);
-    // try {
-    //   const response = await axios.post(
-    //     "http://localhost:5000/user/register",
-    //     formData,
-    //     { headers: { "Content-Type": "application/json" } }
-    //   );
-    //   navigate("/");
-    //   console.log(response.data);
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    const balance = 0;
+    const status ="pandding";
+    const formData = { name, pin, number, email, role, balance, status};
     try {
       await register(formData);
       console.log(formData)
-      navigate("/"); // Redirect to home page or any other page after successful registration
+      navigate("/");
     } catch (error) {
       alert("Sorry, registration failed");
     }
   };
-  // try {
-  //   const response =
-  //   await axios.post('http://localhost:5000/user/register', formData);
-  //   alert('Registration successful');
-  // } catch (error) {
-  //   alert('Registration failed');
-  // }
 
   return (
     <div className="flex justify-center bg-base-200 min-h-screen">

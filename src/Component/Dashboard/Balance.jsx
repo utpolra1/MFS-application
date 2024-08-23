@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { authContext } from '../AuthProvider/AuthProvider';
+import { TbCoinTaka } from 'react-icons/tb';
 
 const Balance = () => {
+    const {user} = useContext(authContext);
     return (
         <div>
-            Balance
+           <h className="flex justify-center items-center gap-1" ><TbCoinTaka/>Balance: {user.balance}</h>
         </div>
     );
 };

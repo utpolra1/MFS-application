@@ -13,7 +13,7 @@ const Login = () => {
     e.preventDefault();
     try {
       await login(credential, pin);
-      navigate(location.state?.from || "/");
+      navigate(location.state?.from || "/blance");
     } catch (error) {
       console.error("Login failed:", error);
       // Display error message to the user
